@@ -1,8 +1,16 @@
 import React from 'react'
-import Landing from './components/Signup/Signup'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Signup from './components/Signup/Signup'
+import Signin from './components/Signin/Signin'
+
 function App() {
   return (
-    <div><Landing/></div>
+    <Router>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
+      </Routes>
+    </Router>
   )
 }
 

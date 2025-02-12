@@ -124,4 +124,4 @@ const SignUp = () => {
     
 };
 
-export default Landing;
+export default SignUp;
