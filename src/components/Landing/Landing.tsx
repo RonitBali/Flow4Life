@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent} from 'react';
 import './Landing.css';
 
-const Form: React.FC = () => {
+const Landing: React.FC = () => {
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -118,4 +118,4 @@ const Form: React.FC = () => {
     
 };
 
-export default Form;
+export default Landing;
