@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './Signup.css';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithPopup,createUserWithEmailAndPassword ,GoogleAuthProvider } from "firebase/auth";
 import { app } from "../../Firebase";
 
+
 const auth = getAuth(app);
+const GoogleProvider = new GoogleAuthProvider();
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -76,6 +78,10 @@ const SignUp = () => {
     const handleInputChange = (setter) => 
         (e) => setter(e.target.value);
 
+    const signupWithGoogle = () => {
+        signInWithPopup(auth, GoogleProvider);
+    }
+    
     return (
         <div className='card'>
             <div className="card-image">
@@ -115,8 +121,9 @@ const SignUp = () => {
                         onChange={handleInputChange(setConfirmPassword)} 
                     />
                     <p className='error'>{errorConfirmPassword}</p>
-    
                     <button onClick={handleSubmit} type="submit">Submit</button>
+                    <br />
+                    <button onClick={signupWithGoogle}>Sign With Google</button>
                 </form>
             </div>
         </div>

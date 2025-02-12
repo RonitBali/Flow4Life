@@ -2,7 +2,7 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+ 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -24,6 +24,7 @@ a:hover {
 
 body {
   margin: 0;
+  
   display: flex;
   place-items: center;
   min-width: 320px;
@@ -65,4 +66,37 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+.otp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.otp-input-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.otp-input {
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.otp-separator {
+  font-size: 24px;
+  padding-top: 10px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
 }
