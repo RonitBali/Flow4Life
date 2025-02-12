@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import './Landing.css';
+import './Signup.css';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { app } from "../../Firebase";
 
 const auth = getAuth(app);
 
-const Landing = () => {
+const SignUp = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -26,7 +26,7 @@ const Landing = () => {
         let isValid = true;
 
         // Username validation
-        if (username.length >= 8) {
+        if (username.length >= 4) {
             setErrorUsername('');
             setUsernameColor('green');
         } else {
@@ -66,9 +66,7 @@ const Landing = () => {
             isValid = false;
         }
 
-        if (isValid) {
-            alert('Form submitted successfully!');
-        }
+       
     };
 
     const handleSubmit = () => {
