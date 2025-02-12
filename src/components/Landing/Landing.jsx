@@ -1,23 +1,27 @@
-import React, { useState, ChangeEvent, FormEvent} from 'react';
+import React, { useState } from 'react';
 import './Landing.css';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { app } from "../../Firebase";
 
-const Landing: React.FC = () => {
-    const [username, setUsername] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [confirmPassword, setConfirmPassword] = useState<string>('');
+const auth = getAuth(app);
 
-    const [errorUsername, setErrorUsername] = useState<string>('');
-    const [errorEmail, setErrorEmail] = useState<string>('');
-    const [errorPassword, setErrorPassword] = useState<string>('');
-    const [errorConfirmPassword, setErrorConfirmPassword] = useState<string>('');
+const Landing = () => {
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const [usernameColor, setUsernameColor] = useState<string>('');
-    const [emailColor, setEmailColor] = useState<string>('');
-    const [passwordColor, setPasswordColor] = useState<string>('');
-    const [confirmPasswordColor, setConfirmPasswordColor] = useState<string>('');
+    const [errorUsername, setErrorUsername] = useState('');
+    const [errorEmail, setErrorEmail] = useState('');
+    const [errorPassword, setErrorPassword] = useState('');
+    const [errorConfirmPassword, setErrorConfirmPassword] = useState('');
 
-    const validate = (e: FormEvent<HTMLFormElement>): void => {
+    const [usernameColor, setUsernameColor] = useState('');
+    const [emailColor, setEmailColor] = useState('');
+    const [passwordColor, setPasswordColor] = useState('');
+    const [confirmPasswordColor, setConfirmPasswordColor] = useState('');
+
+    const validate = (e) => {
         e.preventDefault();
         let isValid = true;
 
@@ -67,8 +71,12 @@ const Landing: React.FC = () => {
         }
     };
 
-    const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => 
-        (e: ChangeEvent<HTMLInputElement>) => setter(e.target.value);
+    const handleSubmit = () => {
+        createUserWithEmailAndPassword(auth, email, password)
+    }
+
+    const handleInputChange = (setter) => 
+        (e) => setter(e.target.value);
 
     return (
         <div className='card'>
@@ -110,7 +118,7 @@ const Landing: React.FC = () => {
                     />
                     <p className='error'>{errorConfirmPassword}</p>
     
-                    <button type="submit">Submit</button>
+                    <button onClick={handleSubmit} type="submit">Submit</button>
                 </form>
             </div>
         </div>
