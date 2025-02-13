@@ -7,9 +7,9 @@ function Home({ displayName, email, photoURL, emailVerified }) {
         <div>
         <h1 className='text-4xl text-left font-bold'>Flow4Life</h1>
         </div>
-        <div className='text-xl text-left'>
-        <h2>Welcome</h2> 
-        <h2 text-bold >{displayName}</h2> 
+        <div className='text-left pt-4'>
+        <h2 className='text-xl'>Welcome</h2> 
+        <h2 className='text-bold text-2xl' >{displayName}</h2> 
       </div>
       </div>
     </section>
