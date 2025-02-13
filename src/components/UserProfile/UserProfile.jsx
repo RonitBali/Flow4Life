@@ -26,7 +26,7 @@ const UserProfile = () => {
 
       <div className="profile-section">
         <img
-          src="https://via.placeholder.com/100"
+          src="photo"
           alt="Profile"
           className="profile-img"
         />
