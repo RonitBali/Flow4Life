@@ -8,7 +8,9 @@ module.exports = {
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			sm: 'calc(var(--radius) - 4px)',
+        card: '12px',
+        input: '8px',
   		},
   		colors: {
   			background: 'hsl(var(--background))',
@@ -50,8 +52,43 @@ module.exports = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
-  		}
+  			},
+        redBackground: '#ff4d4d',
+        whiteBox: '#ffffff',
+        greenBorder: '#28a745',
+        redBorder: '#dc3545',
+        errorText: '#dc3545',
+        buttonGradientStart: '#ff7eb3',
+        buttonGradientEnd: '#ff758c',
+        buttonHoverStart: '#ff5e78',
+        buttonHoverEnd: '#ff3c6a',
+  		},
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      },
+      boxShadow: {
+        card: '0 10px 30px rgba(0, 0, 0, 0.3)',
+      },
+      spacing: {
+        cardPadding: '10px',
+        inputPadding: '12px',
+        buttonPadding: '12px',
+      },
+      transitionProperty: {
+        transform: 'transform',
+        background: 'background',
+      },
+      transitionDuration: {
+        transform: '0.3s',
+        background: '0.3s',
+      },
+      transitionTimingFunction: {
+        easeInOut: 'ease-in-out',
+      },
+      scale: {
+        102: '1.02',
+        105: '1.05',
+      },
   	}
   },
   plugins: [require("tailwindcss-animate")],
