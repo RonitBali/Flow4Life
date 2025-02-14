@@ -1,9 +1,7 @@
 import React from "react";
 import { FaBell, FaEllipsisV, FaMapMarkerAlt, FaComments, FaPhone } from "react-icons/fa";
-import "./UserProfile.css";
 
 const UserProfile = () => {
-
   const user = {
     name: "Madara Uchiha",
     bloodType: "O+",
@@ -14,57 +12,50 @@ const UserProfile = () => {
   };
 
   return (
-    <div>
-  
-      <div >
-        <button>←</button>
-        <div className="icon-group">
-          <FaBell className="icon" />
-          <FaEllipsisV className="icon" />
+    <div style={{ fontFamily: "Arial, sans-serif", backgroundColor: "#fff", color: "#000", padding: "20px", borderRadius: "10px", maxWidth: "400px", margin: "auto", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
+      
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <button style={{ background: "none", border: "none", fontSize: "20px", color: "#d32f2f", cursor: "pointer" }}>←</button>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <FaBell style={{ fontSize: "20px", cursor: "pointer" }} />
+          <FaEllipsisV style={{ fontSize: "20px", cursor: "pointer" }} />
         </div>
       </div>
 
-      <div className="profile-section">
-        <img
-          src="photo"
-          alt="Profile"
-          className="profile-img"
-        />
-        <h2 className="user_name">{user.name}</h2>
-        <span className={`status ${user.isAvailable ? "available" : "unavailable"}`}>
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <img src="photo" alt="Profile" style={{ width: "100px", height: "100px", borderRadius: "50%", border: "3px solid #d32f2f" }} />
+        <h2>{user.name}</h2>
+        <span style={{ display: "inline-block", padding: "5px 10px", borderRadius: "5px", color: "#fff", backgroundColor: user.isAvailable ? "green" : "red" }}>
           {user.isAvailable ? "✅ AVAILABLE FOR DONATE" : "❌ NOT AVAILABLE"}
         </span>
       </div>
 
-  
-      <div className="details">
+      <div style={{ display: "flex", justifyContent: "space-around", marginTop: "20px", textAlign: "center" }}>
         <div>
-          <span className="blood-type">{user.bloodType}</span>
+          <span style={{ fontSize: "20px", fontWeight: "bold" }}>{user.bloodType}</span>
           <p>BLOOD TYPE</p>
         </div>
         <div>
-          <span className="donated-count">{user.donated}</span>
+          <span style={{ fontSize: "20px", fontWeight: "bold" }}>{user.donated}</span>
           <p>DONATED</p>
         </div>
         <div>
-          <span className="requested-count">{user.requested}</span>
+          <span style={{ fontSize: "20px", fontWeight: "bold" }}>{user.requested}</span>
           <p>REQUESTED</p>
         </div>
       </div>
 
-
-      <div className="address">
-        <FaMapMarkerAlt className="icon" />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "20px" }}>
+        <FaMapMarkerAlt style={{ marginRight: "5px" }} />
         <p>{user.location}</p>
       </div>
 
-  
-      <div className="buttons">
-        <button className="btn chat-btn">
-          <FaComments /> CHAT NOW
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "20px" }}>
+        <button style={{ backgroundColor: "#d32f2f", color: "#fff", padding: "10px 15px", border: "none", borderRadius: "5px", display: "flex", alignItems: "center", cursor: "pointer", marginBottom: "10px" }}>
+          <FaComments style={{ marginRight: "5px" }} /> CHAT NOW
         </button>
-        <button className="btn call-btn">
-          <FaPhone /> CALL NOW
+        <button style={{ backgroundColor: "#d32f2f", color: "#fff", padding: "10px 15px", border: "none", borderRadius: "5px", display: "flex", alignItems: "center", cursor: "pointer" }}>
+          <FaPhone style={{ marginRight: "5px" }} /> CALL NOW
         </button>
       </div>
     </div>
