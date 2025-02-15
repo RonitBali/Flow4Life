@@ -1,5 +1,6 @@
 import React from 'react'
 import blood from "../../assets/blood.png";
+import "@components/Signupdetails/Signupdetails.css"
 
 
 const Signupdetails = () => {
@@ -7,9 +8,9 @@ const Signupdetails = () => {
     <div className='page-container'>
       <div className="form-container">
         <div className="header">
-          <img src={blood} alt="" />
+          <h1 className='app-name'>Flow4Life</h1>
           <div className='header'>
-            <h1 className='app-name'>Flow4Life</h1>
+            <img src={blood} alt="" />
           </div>
           <h2 className='form-title'>Enter Your Details</h2>
 
@@ -25,7 +26,7 @@ const Signupdetails = () => {
             <label htmlFor="">
               <input type="checkbox" className='checkbox' />Remember me
             </label>
-            <a href="#" className='forgot password'>Forgot Password?</a>
+            <a href="#" className='forgot'>Forgot Password?</a>
           </div>
           <button type='submit' className='submitbutton'>Create account</button>
         </form>
