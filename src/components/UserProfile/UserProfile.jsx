@@ -23,9 +23,15 @@ const UserProfile = () => {
       </div>
 
       <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <img src="https://i.pinimg.com/736x/34/b0/1a/34b01aa7a98dc4af4782bf37278bc54a.jpg" alt="Profile" style={{ width: "100px", height: "100px", borderRadius: "50%", border: "3px solid #d32f2f" , alignContent: 'center' }} />
-        <h2>{user.name}</h2>
-        <span style={{ display: "inline-block", padding: "5px 10px", borderRadius: "5px", color: "#fff", backgroundColor: user.isAvailable ? "green" : "red" }}>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
+          <img 
+            src="https://i.pinimg.com/736x/34/b0/1a/34b01aa7a98dc4af4782bf37278bc54a.jpg" 
+            alt="Profile" 
+            style={{ width: "120px", height: "120px", borderRadius: "15px", border: "3px solid #d32f2f" }}
+          />
+        </div>
+        <h2 style={{ marginBottom: "15px" }}>{user.name}</h2>
+        <span style={{ display: "inline-block", padding: "5px 10px", borderRadius: "5px", color: "#fff", backgroundColor: user.isAvailable ? "green" : "red", marginBottom: "20px" }}>
           {user.isAvailable ? "✅ AVAILABLE FOR DONATE" : "❌ NOT AVAILABLE"}
         </span>
       </div>
