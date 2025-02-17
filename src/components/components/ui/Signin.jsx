@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
-import { app } from "../Firebase";
-import Home from './Home/Home';
+import { app } from "../../../Firebase";
+import Home from '../../Home/Home';
 
 const auth = getAuth(app);
 const GoogleProvider = new GoogleAuthProvider();

@@ -4,6 +4,59 @@ import "@components/Signupdetails/Signupdetails.css"
 
 
 const Signupdetails = () => {
+   const validate = (e) => {
+          e.preventDefault();
+          let isValid = true;
+  
+          if (username.length >= 4) {
+              setErrorUsername('');
+              setUsernameColor('border-green-500 bg-green-100');
+          } else {
+              setErrorUsername('Username must be at least 8 characters long');
+              setUsernameColor('border-red-500 bg-red-100');
+              isValid = false;
+          }
+  
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (emailRegex.test(email)) {
+              setErrorEmail('');
+              setEmailColor('border-green-500 bg-green-100');
+          } else {
+              setErrorEmail('Enter a valid email address');
+              setEmailColor('border-red-500 bg-red-100');
+              isValid = false;
+          }
+  
+          if (password.length >= 6) {
+              setErrorPassword('');
+              setPasswordColor('border-green-500 bg-green-100');
+          } else {
+              setErrorPassword('Password must be at least 6 characters');
+              setPasswordColor('border-red-500 bg-red-100');
+              isValid = false;
+          }
+  
+          if (confirmPassword === password && confirmPassword.length >= 6) {
+              setErrorConfirmPassword('');
+              setConfirmPasswordColor('border-green-500 bg-green-100');
+          } else {
+              setErrorConfirmPassword('Passwords do not match');
+              setConfirmPasswordColor('border-red-500 bg-red-100');
+              isValid = false;
+          }
+      };
+  
+      const handleSubmit = () => {
+          createUserWithEmailAndPassword(auth, email, password);
+      }
+  
+      const handleInputChange = (setter) =>   
+          (e) => setter(e.target.value);
+  
+      const signupWithGoogle = () => {
+          signInWithPopup(auth, GoogleProvider);
+      }
+      
   return (
     <div className='page-container'>
       <div className="form-container">
@@ -15,7 +68,7 @@ const Signupdetails = () => {
           <h2 className='form-title'>Enter Your Details</h2>
 
         </div>
-        <form>
+        <form onSubmit={validate}>
           <div className="form-group">
             <input type="text" placeholder='Name' className='input-field' />
             <input type="text" placeholder='Email' className='input-field' />

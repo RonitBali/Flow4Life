@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Donor() {
+function Card(props) {
   return (
     <div>
         
@@ -8,4 +8,4 @@ function Donor() {
   )
 }
 
-export default Donor
+export default Card
