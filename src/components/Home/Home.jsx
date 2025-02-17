@@ -4,7 +4,6 @@ import img from "../../assets/blood.png";
 import MiniCard from "@components/components/ui/Mini-Card";
 import Donate from "../../assets/donate.png";
 import Request from "../../assets/request.png";
-import blood from "../../assets/blood.png";
 import Card from "@components/components/ui/Card";
 function Home() {
   const [user, setUser] = useState(null);
@@ -21,6 +20,12 @@ function Home() {
 
     return () => unsubscribe();
   }, []);
+
+  const donationRequests = [
+    { name: "yash", location: "ManavRAchna", bloodGroup: "a" },
+    { name: "yash", location: "ManavRAchna", bloodGroup: "a" },
+    { name: "yash", location: "ManavRAchna", bloodGroup: "a" },
+  ];
 
   return (
     <section>
@@ -43,7 +48,23 @@ function Home() {
         </div>
         <div>
           <h1 className="p-4">DONATION REQUEST</h1>
-          
+          <div className="flex overflow-x-scroll gap-4 p-4">
+            {/* //    <div>
+      <h1 className="p-4">DONATION REQUEST</h1>
+      <div className="flex overflow-x-scroll gap-4 p-4">
+        <Card name={"yash"} location={"ManavRAchna"} bloodGroup={"a"} />
+        <Card name={"yash"} location={"ManavRAchna"} bloodGroup={"a"} />
+        <Card name={"yash"} location={"ManavRAchna"} bloodGroup={"a"} />
+      </div> */}
+            {donationRequests.map((prop, index) => (
+              <Card
+                key={index}
+                name={prop.name}
+                location={prop.location}
+                bloodGroup={prop.bloodGroup}
+              />
+            ))}
+          </div>
         </div>
         </div>
       </div>
