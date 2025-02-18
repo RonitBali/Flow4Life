@@ -1,10 +1,28 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Label } from '@radix-ui/react-label';
+import { useState } from 'react';
+import { getDatabase, ref, set } from "firebase/database";
 
 const BloodDonationForm = () => {
+
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = (data) => console.log(data);
+    const writeUserData = (data) => {
+        const db = getDatabase();
+        const userId = Date.now(); // Unique ID based on timestamp
+        set(ref(db, "users/" + userId), data)
+            .then(() => {
+                alert("Data successfully saved!");
+            })
+            .catch((error) => {
+                console.error("Error saving data:", error);
+                alert("Failed to save data.");
+            });
+    };
+    const onSubmit = (data) => {
+        console.log("Form Data:", data);
+        writeUserData(data);
+    };
 
     return (
         <div className="container mx-auto p-4 max-w-md">
@@ -30,7 +48,7 @@ const BloodDonationForm = () => {
                     )}
                 </div>
 
-               
+
 
                 {/* Email */}
                 <div className="flex flex-col">
@@ -58,12 +76,19 @@ const BloodDonationForm = () => {
                         Mobile Number
                     </Label>
                     <input
-                        type="number"
+                        type="text"
                         id="number"
-                        placeholder='Enter your number'
+                        placeholder="Enter your number"
                         className="border border-gray-300 p-2 rounded-md focus:ring focus:ring-blue-300"
-                        {...register('number', { required: 'Mobile number is required' })}
+                        {...register("number", {
+                            required: "Mobile number is required",
+                            pattern: {
+                                value: /^[0-9]{10}$/,
+                                message: "Enter a valid 10-digit mobile number",
+                            },
+                        })}
                     />
+
                     {errors.number && (
                         <p className="text-sm text-red-500 mt-1">
                             {errors.number.message}
@@ -132,17 +157,23 @@ const BloodDonationForm = () => {
 
                 </div>
 
-                   {/* State */}
-                   <div className="flex flex-col">
+                {/* State */}
+                <div className="flex flex-col">
                     <Label htmlFor="" className="mb-1 text-sm font-medium">
-                        City
+                        State
                     </Label>
                     <input
                         type="text"
                         id="state"
-                        placeholder='Enter your current state'
+                        placeholder="Enter your current state"
                         className="border border-gray-300 p-2 rounded-md focus:ring focus:ring-blue-300"
-                        {...register('state', { required: 'State is required' })}
+                        {...register("state", {
+                            required: "State is required",
+                            pattern: {
+                                value: /^[A-Za-z\s]+$/,
+                                message: "State must contain only letters",
+                            },
+                        })}
                     />
                     {errors.state && (
                         <p className="text-sm text-red-500 mt-1">
@@ -151,17 +182,23 @@ const BloodDonationForm = () => {
                     )}
                 </div>
 
-                   {/* City */}
-                   <div className="flex flex-col">
+                {/* City */}
+                <div className="flex flex-col">
                     <Label htmlFor="" className="mb-1 text-sm font-medium">
                         City
                     </Label>
                     <input
-                        type="number"
+                        type="text"
                         id="city"
-                        placeholder='Enter your current city'
+                        placeholder="Enter your current state"
                         className="border border-gray-300 p-2 rounded-md focus:ring focus:ring-blue-300"
-                        {...register('city', { required: 'City is required' })}
+                        {...register("city", {
+                            required: "City is required",
+                            pattern: {
+                                value: /^[A-Za-z\s]+$/,
+                                message: "City must contain only letters",
+                            },
+                        })}
                     />
                     {errors.city && (
                         <p className="text-sm text-red-500 mt-1">
@@ -170,8 +207,8 @@ const BloodDonationForm = () => {
                     )}
                 </div>
 
-                  {/* ZipCode */}
-                  <div className="flex flex-col">
+                {/* ZipCode */}
+                <div className="flex flex-col">
                     <Label htmlFor="" className="mb-1 text-sm font-medium">
                         Zipcode
                     </Label>
@@ -189,8 +226,8 @@ const BloodDonationForm = () => {
                     )}
                 </div>
 
-                 {/* Address */}
-                 <div className="flex flex-col">
+                {/* Address */}
+                <div className="flex flex-col">
                     <Label htmlFor="" className="mb-1 text-sm font-medium">
                         Address (Optional)
                     </Label>
@@ -199,7 +236,7 @@ const BloodDonationForm = () => {
                         id="address"
                         placeholder='Enter your full address'
                         className="border border-gray-300 p-2 rounded-md focus:ring focus:ring-blue-300"
-                        {...register('address', )}
+                        {...register('address',)}
                     />
                 </div>
 
@@ -210,7 +247,8 @@ const BloodDonationForm = () => {
                         type="checkbox"
                         id="consent"
                         className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring focus:ring-blue-300"
-                        {...register('consent', { required: 'You must agree before submitting' })}
+                        aria-required="true"
+                        {...register("consent", { required: "You must agree before submitting" })}
                     />
                     <label htmlFor="consent" className="ml-2 text-sm text-gray-700">
                         I agree to provide my blood for donation purposes and confirm that the information provided is accurate.
@@ -225,12 +263,14 @@ const BloodDonationForm = () => {
 
 
                 {/* Submit Button */}
-                <button
-                    type="submit"
-                    className="bg-blue-500 flex  text-white px-4 py-2 rounded-md hover:bg-blue-800 transition"
-                >
-                    Submit
-                </button>
+                <div className="flex justify-center">
+                    <button
+                        type="submit"
+                        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition"
+                    >
+                        Submit
+                    </button>
+                </div>
             </form>
         </div>
     );
