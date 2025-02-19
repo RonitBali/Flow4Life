@@ -34,7 +34,7 @@
 .header img {
   width: 120px;
   height: auto;
-  margin-bottom: 0.8rem;
+  /* margin-bottom: 0.8rem; */
 }
 
 .app-name {
@@ -49,7 +49,7 @@
 .form-title {
   font-family: 'Poppins';
   font-weight: 700;
-  font-size: 26px;
+  font-size: 40px;
   line-height: 1.2;
   margin-bottom: 1.5rem;
   color: #4d3e3e;
@@ -164,4 +164,18 @@
 
 .footer-text a:hover {
   text-decoration: underline;
+}
+.submitbutton2{
+  font-family: 'Inter', sans-serif;
+  background: #FF1B64;
+  border: none;
+  border-radius: 25px;
+  color: #FFFFFF;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  width: 100%;
+  font-weight: bold;
+  margin-top: 30px;
 }

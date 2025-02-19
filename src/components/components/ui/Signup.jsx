@@ -21,55 +21,68 @@ const SignUp = () => {
     const [passwordColor, setPasswordColor] = useState('');
     const [confirmPasswordColor, setConfirmPasswordColor] = useState('');
 
-    const validate = (e) => {
-        e.preventDefault();
+    const validate = () => {
         let isValid = true;
-
+    
         // Username validation
         if (username.length >= 4) {
-            setErrorUsername('');
-            setUsernameColor('border-green-500 bg-green-100');
+          setErrorUsername('');
+          setUsernameColor('border-green-500 bg-green-100');
         } else {
-            setErrorUsername('Username must be at least 8 characters long');
-            setUsernameColor('border-red-500 bg-red-100');
-            isValid = false;
+          setErrorUsername('Username must be at least 4 characters long');
+          setUsernameColor('border-red-500 bg-red-100');
+          isValid = false;
         }
-
+    
         // Email validation (basic regex)
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (emailRegex.test(email)) {
-            setErrorEmail('');
-            setEmailColor('border-green-500 bg-green-100');
+          setErrorEmail('');
+          setEmailColor('border-green-500 bg-green-100');
         } else {
-            setErrorEmail('Enter a valid email address');
-            setEmailColor('border-red-500 bg-red-100');
-            isValid = false;
+          setErrorEmail('Enter a valid email address');
+          setEmailColor('border-red-500 bg-red-100');
+          isValid = false;
         }
-
+    
         // Password validation
         if (password.length >= 6) {
-            setErrorPassword('');
-            setPasswordColor('border-green-500 bg-green-100');
+          setErrorPassword('');
+          setPasswordColor('border-green-500 bg-green-100');
         } else {
-            setErrorPassword('Password must be at least 6 characters');
-            setPasswordColor('border-red-500 bg-red-100');
-            isValid = false;
+          setErrorPassword('Password must be at least 6 characters');
+          setPasswordColor('border-red-500 bg-red-100');
+          isValid = false;
         }
-
+    
         // Confirm password validation
         if (confirmPassword === password && confirmPassword.length >= 6) {
-            setErrorConfirmPassword('');
-            setConfirmPasswordColor('border-green-500 bg-green-100');
+          setErrorConfirmPassword('');
+          setConfirmPasswordColor('border-green-500 bg-green-100');
         } else {
-            setErrorConfirmPassword('Passwords do not match');
-            setConfirmPasswordColor('border-red-500 bg-red-100');
-            isValid = false;
+          setErrorConfirmPassword('Passwords do not match');
+          setConfirmPasswordColor('border-red-500 bg-red-100');
+          isValid = false;
         }
-    };
-
-    const handleSubmit = () => {
-        createUserWithEmailAndPassword(auth, email, password);
-    }
+    
+        return isValid;
+      };
+      
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (validate()) {
+          try {
+            const userCredential = await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+            console.log('User created:', userCredential.user);    
+          } catch (error) {
+            console.error('Error creating user:', error.message);
+          }
+        }
+      };
 
     const handleInputChange = (setter) => 
         (e) => setter(e.target.value);
@@ -81,7 +94,7 @@ const SignUp = () => {
     return (
         <div className='bg-white shadow-lg rounded-lg p-8 w-full max-w-md text-center text-gray-800 transition-transform transform duration-300 ease-in-out hover:scale-105'>
             <div className="card-image">
-                <form onSubmit={validate} className="flex flex-col gap-4">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <input 
                         type="text" 
                         placeholder='Username' 

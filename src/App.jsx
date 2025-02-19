@@ -6,19 +6,20 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { app } from './Firebase';
 import Home from './components/Home/Home';
 import BloodDonationForm from '@components/Donationform/Blooddonationform';
-import Signupdetails from '@components/Signupdetails/Signupdetails';
+import Signuppage from '@components/Signuppage/Signuppage';
+import Signinpage from '@components/Signinpage/Signinpage';
 import SignUp from './components/components/ui/Signup';
 // import Otp from './components/Otp';
 
 
 function App() {
 
-    return (
-  
+    return ( 
       <Router>
         <Routes>
-          <Route path="/signup" element={<Signupdetails />} />
-          <Route path="/signin" element={<Signin />} />
+          <Route path ="/signup" element={<Signuppage/>}/>
+          <Route path ="/form" element={<BloodDonationForm/>}/>
+          <Route path="/signin" element={<Signinpage />} />
           {/* <Route path="/otp" element={<Otp />} /> */}
           <Route path="/home" element={<Home />} />
         </Routes>
