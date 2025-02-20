@@ -83,7 +83,7 @@ function Home() {
               />
             ))}
             
-            <Button variant="default" onClick={handleLogout}>Logout</Button>
+            <button onClick={handleLogout}>Logout</button>
            
           </div>
         </div>
