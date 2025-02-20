@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import blood from "../../assets/blood.png";
 import { useNavigate, Link} from 'react-router-dom';
-import { getAuth, signInWithPopup, createUserWithEmailAndPassword, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { app } from "../../Firebase";
 import "../Signinpage/Signinpage.css";
+
 
 const Signinpage = () => {
   const navigate = useNavigate();
@@ -64,17 +65,15 @@ const Signinpage = () => {
     e.preventDefault();
 
     if (
-      !errorUsername &&
+      
       !errorEmail &&
       !errorPassword &&
-      !errorConfirmPassword &&
-      username &&
       email &&
-      password &&
-      confirmPassword
+      password 
+      
     ) {
       try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         console.log('User created:', userCredential.user);
         navigate('/home'); // Navigate to home or another page
       } catch (error) {
@@ -134,7 +133,7 @@ const Signinpage = () => {
             </label>
             <a href="#" className='forgot'>Forgot Password?</a>
           </div>
-          <button type='submit' className='submitbutton'>Create account</button>
+          <button type='submit' className='submitbutton'>Login</button>
         </form>
         <button className='submitbutton2' onClick={signupWithGoogle}>Sign in with Google</button>
         <p className='footer-text'>

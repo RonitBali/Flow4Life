@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import img from "../../assets/blood.png";
 import MiniCard from "@components/components/ui/Mini-Card";
 import Donate from "../../assets/donate.png";
 import Request from "../../assets/request.png";
 import Card from "@components/components/ui/Card";
+import { Button } from './../components/ui/button'
+import { useNavigate } from "react-router-dom";
+
+
 function Home() {
+  const navigate = useNavigate()
+  const auth = getAuth()
+ 
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -26,6 +33,17 @@ function Home() {
     { name: "yash", location: "ManavRAchna", bloodGroup: "a" },
     { name: "yash", location: "ManavRAchna", bloodGroup: "a" },
   ];
+
+  const handleLogout = async() =>{
+  try {
+    await signOut(auth);
+    console.log("user successfully signed out")
+    navigate('/signin')
+    
+  } catch (error) {
+    console.log(error);
+  }
+  }
 
   return (
     <section>
@@ -64,6 +82,9 @@ function Home() {
                 bloodGroup={prop.bloodGroup}
               />
             ))}
+            
+            <Button variant="default" onClick={handleLogout}>Logout</Button>
+           
           </div>
         </div>
         </div>
