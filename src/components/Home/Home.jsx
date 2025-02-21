@@ -8,11 +8,9 @@ import Card from "@components/components/ui/Card";
 import { Button } from './../components/ui/button'
 import { useNavigate } from "react-router-dom";
 
-
 function Home() {
-  const navigate = useNavigate()
-  const auth = getAuth()
- 
+  const navigate = useNavigate();
+  const auth = getAuth();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -34,25 +32,24 @@ function Home() {
     { name: "yash", location: "ManavRAchna", bloodGroup: "a" },
   ];
 
-  const handleLogout = async() =>{
-  try {
-    await signOut(auth);
-    console.log("user successfully signed out")
-    navigate('/signin')
-    
-  } catch (error) {
-    console.log(error);
-  }
-  }
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      console.log("user successfully signed out");
+      navigate('/signin');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <section>
+    <section className="p-4">
       <div>
-        <div className="flex justify-left items-center p-4 text-black rounded-br-2xl rounded-bl-2xl">
+        <div className="flex justify-left items-center text-black rounded-br-2xl rounded-bl-2xl">
           {img && <img src={img} alt="logo" className="w-20 h-21" />}
           <h1 className="text-4xl text-left font-bold">Flow4Life</h1>
         </div>
-        <div className="text-left text-xl pl-5">
+        <div className="text-left text-xl">
           <h2 className="font-light">WELCOME</h2>
           {user && (
             <>
@@ -60,33 +57,24 @@ function Home() {
               <p>{user.email}</p>
             </>
           )}
-        <div className="flex flex-row gap-7 items-center justify-center p-4">
+          <div className="flex flex-col md:flex-row gap-7 items-center justify-center p-4">
             <MiniCard img={Donate} name={"Donate"} />
             <MiniCard img={Request} name={"Find Donor"} />
-        </div>
-        <div>
-          <h1 className="p-4">DONATION REQUEST</h1>
-          <div className="flex overflow-x-scroll gap-4 p-4">
-            {/* //    <div>
-      <h1 className="p-4">DONATION REQUEST</h1>
-      <div className="flex overflow-x-scroll gap-4 p-4">
-        <Card name={"yash"} location={"ManavRAchna"} bloodGroup={"a"} />
-        <Card name={"yash"} location={"ManavRAchna"} bloodGroup={"a"} />
-        <Card name={"yash"} location={"ManavRAchna"} bloodGroup={"a"} />
-      </div> */}
-            {donationRequests.map((prop, index) => (
-              <Card
-                key={index}
-                name={prop.name}
-                location={prop.location}
-                bloodGroup={prop.bloodGroup}
-              />
-            ))}
-            
-            <button onClick={handleLogout}>Logout</button>
-           
           </div>
-        </div>
+          <div>
+            <h1 className="p-4">DONATION REQUEST</h1>
+            <div className="flex overflow-x-scroll gap-4 p-4">
+              {donationRequests.map((prop, index) => (
+                <Card
+                  key={index}
+                  name={prop.name}
+                  location={prop.location}
+                  bloodGroup={prop.bloodGroup}
+                />
+              ))}
+            </div>
+            <button onClick={handleLogout} className="mt-4 p-2 bg-red-500 text-white rounded">Logout</button>
+          </div>
         </div>
       </div>
     </section>
