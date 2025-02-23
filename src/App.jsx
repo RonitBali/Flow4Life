@@ -11,6 +11,7 @@ import Signinpage from '@components/Signinpage/Signinpage';
 import SignUp from './components/components/ui/Signup';
 import Map from '@components/components/Map';
 import MapTilerMap from '@components/MapTilerMap';
+import RequestForm from '@components/RequestForm/RequestForm';
 // import Otp from './components/Otp';
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
         <Routes>
           <Route path ="/signup" element={<Signuppage/>}/>
           <Route path ="/map" element={<MapTilerMap/>}/>
-          <Route path ="/form" element={<BloodDonationForm/>}/>
+          <Route path ="/donationform" element={<BloodDonationForm/>}/>
+          <Route path ="/requestform" element={<RequestForm/>}/>
           <Route path="/signin" element={<Signinpage />} />
           {/* <Route path="/otp" element={<Otp />} /> */}
           <Route path="/" element={<Home />} />

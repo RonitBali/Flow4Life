@@ -58,8 +58,10 @@ function Home() {
             </>
           )}
           <div className="flex flex-col md:flex-row gap-7 items-center justify-center p-4">
-            <MiniCard img={Donate} name={"Donate"} />
-            <MiniCard img={Request} name={"Find Donor"} />
+          <button onClick={() => {navigate('/donationform')}}>
+        <MiniCard img={Donate} name={"Donate"} />
+    </button>
+            <button onClick={()=>{navigate('/requestform')}}><MiniCard img={Request} name={"Find Donor"} /></button>
           </div>
           <div>
             <h1 className="p-4">DONATION REQUEST</h1>

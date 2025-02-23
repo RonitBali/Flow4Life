@@ -77,7 +77,7 @@ const Signuppage = () => {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         console.log('User created:', userCredential.user);
-        navigate('/home'); // Navigate to home or another page
+        navigate('/'); // Navigate to home or another page
       } catch (error) {
         console.error('Error creating user:', error.message);
       }
@@ -88,7 +88,7 @@ const Signuppage = () => {
       try {
         const result = await signInWithPopup(auth, Google);
         console.log("User signed in with Google:", result.user);
-        navigate('/home');
+        navigate('/');
       } catch (error) {
         console.error("Error signing in with Google:", error.message);
       }
