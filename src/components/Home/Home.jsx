@@ -1,85 +1,126 @@
-import React, { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import img from "../../assets/blood.png";
-import MiniCard from "@components/components/ui/Mini-Card";
-import Donate from "../../assets/donate.png";
-import Request from "../../assets/request.png";
-import Card from "@components/components/ui/Card";
-import { Button } from './../components/ui/button'
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { getMessaging, onMessage, getToken } from 'firebase/messaging';
+import { app } from '../../Firebase';
+import { useNavigate, Link } from 'react-router-dom';
+import BloodDonationForm from '@components/Donationform/Blooddonationform';
 
 
-function Home() {
+const Home = () => {
   const navigate = useNavigate();
-  const auth = getAuth();
+  const auth = getAuth(app);
+  const database = getDatabase();
+  const messaging = getMessaging(app);
+
   const [user, setUser] = useState(null);
+  const [donationRequests, setDonationRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        requestNotificationPermission();
       } else {
-        setUser(null);
+        navigate('/signin');
       }
     });
-
     return () => unsubscribe();
-  }, []);
+  }, [auth, navigate]);
 
-  const donationRequests = [
-    { name: "yash", location: "ManavRAchna", bloodGroup: "a" },
-    { name: "yash", location: "ManavRAchna", bloodGroup: "a" },
-    { name: "yash", location: "ManavRAchna", bloodGroup: "a" },
-  ];
+  useEffect(() => {
+    const donationRequestsRef = ref(database, 'donation_requests');
+    onValue(donationRequestsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setDonationRequests(Object.values(data));
+      }
+      setLoading(false);
+    });
+  }, [database]);
 
-  const handleLogout = async () => {
+  useEffect(() => {
+    onMessage(messaging, (payload) => {
+      console.log('New notification:', payload);
+      setNotifications((prev) => [...prev, payload.notification]);
+    });
+  }, [messaging]);
+
+  const requestNotificationPermission = async () => {
     try {
-      await signOut(auth);
-      console.log("user successfully signed out");
-      navigate('/signin');
+      const token = await getToken(messaging, { vapidKey: 'YOUR_VAPID_KEY' });
+      console.log('Notification token:', token);
     } catch (error) {
-      console.log(error);
+      console.error('Error getting notification token:', error);
     }
   };
 
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate('/signin');
+  };
+
   return (
-    <section className="p-4">
-      <div>
-        <div className="flex justify-left items-center text-black rounded-br-2xl rounded-bl-2xl">
-          {img && <img src={img} alt="logo" className="w-20 h-21" />}
-          <h1 className="text-4xl text-left font-bold">Flow4Life</h1>
+    <section className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Navigation Bar */}
+        <nav className="flex justify-between items-center bg-red-600 text-white p-4 rounded-xl shadow-md">
+          <h1 className="text-3xl font-bold">Flow4Life</h1>
+          <div className="flex gap-4">
+            <Link to="/" className="hover:underline">Home</Link>
+            <Link to="/finddonor" className="hover:underline">Find Donors</Link>
+            <Link to="/requestform" className="hover:underline">Request Blood</Link>
+            {user ? (
+              <button onClick={handleLogout} className="bg-white text-red-600 px-4 py-2 rounded-md">Sign Out</button>
+            ) : (
+              <Link to="/signin" className="bg-white text-red-600 px-4 py-2 rounded-md">Sign In</Link>
+            )}
+          </div>
+        </nav>
+
+        {/* Hero Section */}
+        <div className="mt-8 text-center">
+          <h2 className="text-xl font-semibold text-gray-700">Find Blood Donors Near You</h2>
+          <p className="text-gray-500">Register as a donor or request blood in emergencies.</p>
         </div>
-        <div className="text-left text-xl">
-          <h2 className="font-light">WELCOME</h2>
-          {user && (
-            <>
-              <h2 className="text-bold text-2xl">{user.displayName}</h2>
-              <p>{user.email}</p>
-            </>
-          )}
-          <div className="flex flex-col md:flex-row gap-7 items-center justify-center p-4">
-            <MiniCard img={Donate} name={"Donate"} path={"/donationform" }/>
-            <MiniCard img={Request} name={"Find Donor"} />
+
+        {loading ? (
+          <p className="text-center text-red-600 mt-4">Loading donation requests...</p>
+        ) : (
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {donationRequests.map((request, index) => (
+              <div
+                key={index}
+                className="p-6 bg-white shadow-md rounded-lg hover:shadow-lg transition cursor-pointer"
+                onClick={() => navigate(`/donor/${request.userId}`)}
+              >
+                <h3 className="text-lg font-bold text-gray-800">{request.fullName}</h3>
+                <p className="text-red-600 font-semibold">Blood Group: {request.bloodGroup}</p>
+                <p className="text-gray-500">City: {request.city}</p>
+              </div>
+            ))}
           </div>
-          <div>
-            <h1 className="p-4">DONATION REQUEST</h1>
-            <div className="flex overflow-x-scroll gap-4 p-4">
-              {donationRequests.map((prop, index) => (
-                <Card
-                  key={index}
-                  name={prop.name}
-                  location={prop.location}
-                  bloodGroup={prop.bloodGroup}
-                />
-              ))}
-            </div>
-            <button onClick={handleLogout} className="mt-4 p-2 bg-red-500 text-white rounded">Logout</button>
-          </div>
+        )}
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={() => navigate("/donate")}
+            className="bg-red-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-700 transition duration-300"
+          >
+            Donate Blood
+          </button>
         </div>
       </div>
+      <button
+  onClick={() => navigate("/chats")}
+  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+>
+  View Your Chats
+</button>
     </section>
   );
-}
+};
 
 export default Home;
