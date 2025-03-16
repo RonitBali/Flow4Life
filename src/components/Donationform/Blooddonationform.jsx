@@ -3,8 +3,10 @@ import { getAuth } from "firebase/auth";
 import { useForm } from 'react-hook-form';
 import { Label } from '@radix-ui/react-label';
 import { getDatabase, ref, push, serverTimestamp } from "firebase/database";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const BloodDonationForm = () => {
+  const navigate = useNavigate();
   const auth = getAuth();
   const [user, setUser] = useState(null);
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -100,11 +102,13 @@ const BloodDonationForm = () => {
 
     try {
       await push(requestRef, requestData);
-      alert("Blood request submitted successfully!");
+      // alert("Blood request submitted successfully!");
+      navigate("/");
     } catch (error) {
       console.error("Error submitting request:", error);
       alert("Failed to submit request.");
     } finally {
+
       setLoading(false);
     }
   };
