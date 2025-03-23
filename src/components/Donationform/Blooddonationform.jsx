@@ -11,7 +11,7 @@ const BloodDonationForm = () => {
   const [user, setUser] = useState(null);
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
-  const [location, setLocation] = useState({ lng: 77.209, lat: 28.6139 });
+  const [location, setLocation] = useState({ lng: 0, lat: 0 });
   const [address, setAddress] = useState(null);
 
   useEffect(() => {
