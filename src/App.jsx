@@ -6,9 +6,10 @@ import Home from './components/Home/Home';
 import RequestForm from '@components/RequestForm/RequestForm';
 import FindDonor from '@components/FindDonor/FindDonor';
 import ChatPage from './ChatPage';
-import ChatList from './ChatList'; // Import the chat list component
+import ChatList from './ChatList';
 import BloodDonationForm from '@components/Donationform/Blooddonationform';
-
+import UserProfile from '@components/UserProfile/UserProfile';
+import ProfileSetup from '@components/ProfileSetup/ProfileSetup';
 
 function App() {
     return ( 
@@ -20,7 +21,9 @@ function App() {
           <Route path="/finddonor" element={<FindDonor />} />
           <Route path="/chat/:id" element={<ChatPage />} />
           <Route path="/chats" element={<ChatList />} /> 
-          <Route path="/donate" element={<BloodDonationForm />} /> {/* Add the new route */}
+          <Route path="/profile/:userId" element={<UserProfile />} />  
+          <Route path="/donate" element={<BloodDonationForm />} />
+          <Route path="/profilesetup" element={<ProfileSetup />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>

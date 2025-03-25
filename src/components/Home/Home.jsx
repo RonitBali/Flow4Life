@@ -279,7 +279,7 @@ const Home = () => {
                 <motion.div
                   key={index}
                   className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
-                  onClick={() => navigate(`/donor/${request.userId}`)}
+                  onClick={() => navigate(`/profile/${request.userId}`)}
                   whileHover={{ scale: 1.02 }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

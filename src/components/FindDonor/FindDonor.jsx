@@ -84,7 +84,8 @@ const FindDonor = () => {
               <div
                 key={request.id}
                 className="p-6 bg-white shadow-md rounded-lg hover:shadow-lg transition cursor-pointer"
-                onClick={() => navigate(`/donor/${request.id}`)}
+                // onClick={() => navigate(`/donor/${request.id}`)}
+                onClick={() => navigate(`/profile/${request.userId}`)}
               >
                 <h3 className="text-lg font-bold text-gray-800">{request.fullName}</h3>
                 <p className="text-red-600 font-semibold">Blood Group: {request.bloodGroup}</p>
