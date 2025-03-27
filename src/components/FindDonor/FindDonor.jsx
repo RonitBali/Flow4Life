@@ -31,7 +31,7 @@ const FindDonor = () => {
   }, []);
 
   useEffect(() => {
-    const donationRequestsRef = ref(database, "donation_requests");
+    const donationRequestsRef = ref(database, "blood_requests");
     onValue(donationRequestsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
@@ -42,9 +42,14 @@ const FindDonor = () => {
   }, [database]);
 
   useEffect(() => {
+    console.log("Donation Requests:", donationRequests);
+    console.log("User City:", userCity);
+    console.log("Search Query:", searchQuery);
+
     const results = donationRequests.filter(
-      (request) =>
-        request.bloodGroup.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (request) =>  
+        request.bloodGroupRequired &&
+        request.bloodGroupRequired.toLowerCase().includes(searchQuery.toLowerCase()) &&
         request.city &&
         userCity &&
         request.city.toLowerCase() === userCity.toLowerCase()

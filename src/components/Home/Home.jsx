@@ -225,7 +225,7 @@ const Home = () => {
             transition={{ delay: 0.4 }}
           >
             <button
-              onClick={() => navigate("/donate")}
+              onClick={() => navigate("/finddonor")}
               className="bg-red-500 text-white px-8 py-3 rounded-full hover:bg-red-600 transition-colors shadow-sm hover:shadow flex items-center gap-2"
             >
               Donate Blood <Heart className="w-5 h-5" />
@@ -259,7 +259,7 @@ const Home = () => {
         {/* Donation Requests Section */}
         <div className="mt-16">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">Recent Blood Requests</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Available Blood Donators</h2>
             <Link
               to="/finddonor"
               className="text-red-500 hover:text-red-600 flex items-center gap-1"
@@ -309,11 +309,11 @@ const Home = () => {
         {/* Chat Section */}
         <div className="mt-8 text-center">
           <Link
-            to="/chats"
-            className="inline-flex items-center gap-2 bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition-colors shadow-sm hover:shadow"
+            to="/donate"
+            className="inline-flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-full hover:bg-red-600 transition-colors shadow-sm hover:shadow"
           >
             <MessageCircle className="w-5 h-5" />
-            View Your Chats
+           Register as Donar
           </Link>
         </div>
       </div>
