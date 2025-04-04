@@ -67,6 +67,7 @@ const ProfileSetup = () => {
                             // className={`input-field ${errorEmail ? 'border-red-500 bg-red-100' : 'border-white-500 bg-white-100'}`}
                             value={bloodGroup}
                             onChange={(e) => setBloodGroup(e.target.value)}
+                            className="outline-none"
                             required
                         />
                         {/* <p className='text-red-500 text-sm text-left pl-1'>{errorEmail}</p> */}
@@ -76,6 +77,7 @@ const ProfileSetup = () => {
                             placeholder="Location"
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
+                             className="outline-none"
                             required
                         />
                         <input
@@ -83,6 +85,7 @@ const ProfileSetup = () => {
                             placeholder="Contact"
                             value={contact}
                             onChange={(e) => setContact(e.target.value)}
+                             className="outline-none"
                             required
                         />
                         {/* <p className='text-red-500 text-sm text-left pl-1'>{errorPassword}</p> */}
