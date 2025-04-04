@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Label } from '@radix-ui/react-label';
 import { getDatabase, ref, push, serverTimestamp } from "firebase/database";
-import { auth } from "@/firebase"; // Ensure this is the correct Firebase import
+import { app } from "../../Firebase"; // Ensure this is the correct Firebase import
 
 const RequestForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [loading, setLoading] = useState(false);
+    const auth = getAuth(app);
 
     const onSubmit = async (data) => {
         setLoading(true);
