@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Label } from '@radix-ui/react-label';
 import { getDatabase, ref, push, serverTimestamp } from "firebase/database";
 import { app } from "../../Firebase"; // Ensure this is the correct Firebase import
+import { getAuth } from 'firebase/auth';
 
 const RequestForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
