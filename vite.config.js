@@ -1,16 +1,7 @@
-import path from "path"
-import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
+// https://vite.dev/config/
 export default defineConfig({
-  css: {
-    postcss: './postcss.config.cjs', // Update to use the .cjs extension
-  },
   plugins: [react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-      '@components': path.resolve(__dirname, './src/components'),
-    },
-  },
 })
