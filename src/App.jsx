@@ -9,7 +9,19 @@ import BloodDonationForm from './Pages/Donationform/Blooddonationform';
 import UserProfile from './Pages/UserProfile/UserProfile';
 import ProfileSetup from './Pages/ProfileSetup/ProfileSetup';
 
-function App() {
+function App() 
+{   
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+      .register('/firebase-messaging-sw.js')
+      .then((registration) => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch((err) => {
+        console.error('Service Worker registration failed:', err);
+      });
+  }
     return ( 
       <Router>
         <Routes>
@@ -24,6 +36,7 @@ function App() {
         </Routes>
       </Router>
     );
+    
 }
 
 export default App;

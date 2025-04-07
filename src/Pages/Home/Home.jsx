@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { getDatabase, ref, onValue } from 'firebase/database';
+import { getDatabase, ref, onValue, set } from 'firebase/database';
 import { getMessaging, onMessage, getToken } from 'firebase/messaging';
 import { app } from "../../Utils/Firebase";
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Bell, Droplet, MapPin, Users, Heart, ArrowRight, ChevronRight, MessageCircle } from "lucide-react";
 import blood from '../../assets/blood.png'
+import { toast } from "react-hot-toast";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -46,13 +47,19 @@ const Home = () => {
 
   useEffect(() => {
     onMessage(messaging, (payload) => {
+      console.log('Message received in foreground: ', payload);
       setNotifications((prev) => [...prev, payload.notification]);
+      toast.success(payload.notification?.title || "New notification");
     });
   }, [messaging]);
 
   const requestNotificationPermission = async () => {
     try {
-      const token = await getToken(messaging, { vapidKey: 'YOUR_VAPID_KEY' });
+      const token = await getToken(messaging, { vapidKey: 'BGdFd5iKrCCk65_Ld6mWv9XAutBRVe1Q5RmCHylozHlT5uwJBQfiCxUubjqoIOJM0bW2Ctg1cXKU6c0tXJ5dYJQ' });
+      const userId = auth.currentUser?.uid;
+      if (token && userId) {
+        await set(ref(database, `users/${userId}/fcmToken`), token);
+      }
       console.log('Notification token:', token);
     } catch (error) {
       console.error('Error getting notification token:', error);
@@ -64,11 +71,11 @@ const Home = () => {
     navigate('/signin');
   };
 
-  const stats = [
-    { icon: <Droplet className="w-8 h-8 text-red-500" />, value: "1,000+", label: "Blood Donations" },
-    { icon: <Users className="w-8 h-8 text-red-500" />, value: "5,000+", label: "Active Donors" },
-    { icon: <MapPin className="w-8 h-8 text-red-500" />, value: "50+", label: "Cities Covered" },
-  ];
+  // const stats = [
+  //   { icon: <Droplet className="w-8 h-8 text-red-500" />, value: "1,000+", label: "Blood Donations" },
+  //   { icon: <Users className="w-8 h-8 text-red-500" />, value: "5,000+", label: "Active Donors" },
+  //   { icon: <MapPin className="w-8 h-8 text-red-500" />, value: "50+", label: "Cities Covered" },
+  // ];
 
   return (
     <>
@@ -100,7 +107,7 @@ const Home = () => {
                 <Link to="/" className="text-gray-700 hover:text-red-500 transition-colors">Home</Link>
                 <Link to="/finddonor" className="text-gray-700 hover:text-red-500 transition-colors">Find Donors</Link>
                 <Link to="/requestform" className="text-gray-700 hover:text-red-500 transition-colors">Request Blood</Link>
-                
+
                 {/* Notifications */}
                 <div className="relative">
                   <button
@@ -255,69 +262,69 @@ const Home = () => {
                 <div className="text-gray-600">{stat.label}</div>
               </motion.div>
             ))} */}
-          </div>
+        </div>
 
-          {/* Donation Requests Section */}
-          <div className="mt-16">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900">Available Blood Donators</h2>
-              <Link
-                to="/finddonor"
-                className="text-red-500 hover:text-red-600 flex items-center gap-1"
-              >
-                View all <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            {loading ? (
-              <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-red-500 border-t-transparent mx-auto"></div>
-                <p className="mt-4 text-gray-600">Loading requests...</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {donationRequests.map((request, index) => (
-                  <motion.div
-                    key={index}
-                    className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
-                    onClick={() => navigate(`/profile/${request.userId}`)}
-                    whileHover={{ scale: 1.02 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 * index }}
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">{request.fullName}</h3>
-                        <p className="text-gray-600">{request.city}</p>
-                      </div>
-                      <div className="bg-red-50 text-red-500 px-3 py-1 rounded-full text-sm font-medium">
-                        {request.bloodGroup}
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                      <button className="text-red-500 hover:text-red-600 flex items-center gap-1">
-                        Contact <MessageCircle className="w-4 h-4" />
-                      </button>
-                      <span className="text-sm text-gray-500">Urgent</span>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Chat Section */}
-          <div className="mt-8 text-center">
+        {/* Donation Requests Section */}
+        <div className="mt-16">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900">Available Blood Donators</h2>
             <Link
-              to="/donate"
-              className="inline-flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-full hover:bg-red-600 transition-colors shadow-sm hover:shadow"
+              to="/finddonor"
+              className="text-red-500 hover:text-red-600 flex items-center gap-1"
             >
-              <MessageCircle className="w-5 h-5" />
-             Register as Donor
+              View all <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
+
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-red-500 border-t-transparent mx-auto"></div>
+              <p className="mt-4 text-gray-600">Loading requests...</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {donationRequests.map((request, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => navigate(`/profile/${request.userId}`)}
+                  whileHover={{ scale: 1.02 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 * index }}
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">{request.fullName}</h3>
+                      <p className="text-gray-600">{request.city}</p>
+                    </div>
+                    <div className="bg-red-50 text-red-500 px-3 py-1 rounded-full text-sm font-medium">
+                      {request.bloodGroup}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                    <button className="text-red-500 hover:text-red-600 flex items-center gap-1">
+                      Contact <MessageCircle className="w-4 h-4" />
+                    </button>
+                    <span className="text-sm text-gray-500">Urgent</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
+
+        {/* Chat Section */}
+        <div className="mt-8 text-center">
+          <Link
+            to="/donate"
+            className="inline-flex items-center gap-2 bg-red-500 text-white px-6 py-3 rounded-full hover:bg-red-600 transition-colors shadow-sm hover:shadow"
+          >
+            <MessageCircle className="w-5 h-5" />
+            Register as Donor
+          </Link>
+        </div>
+      </div>
     </>
   );
 };
