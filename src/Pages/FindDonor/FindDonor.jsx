@@ -8,25 +8,32 @@ const FindDonor = () => {
   const [donationRequests, setDonationRequests] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userCity, setUserCity] = useState(null);
+  const [userCity, setUserCity] = useState("Faridabad");
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
-          const response = await fetch(
-            `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${"b3b3bbc277c2455fb37537202146f48e"}`
-          );
-          const data = await response.json();
-          if (data.results.length > 0) {
-            setUserCity(data.results[0].components.city || data.results[0].components.town);
+          try {
+            const response = await fetch(
+              `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${"b3b3bbc277c2455fb37537202146f48e"}`
+            );
+            const data = await response.json();
+            const city = data.results?.[0]?.components?.city || data.results?.[0]?.components?.town;
+            setUserCity(city || "Faridabad"); // Set city or default to "Faridabad"
+          } catch (error) {
+            console.error("Error fetching geolocation data:", error);
+            setUserCity("Faridabad"); // Default to "Faridabad" on error
           }
         },
         (error) => {
           console.error("Geolocation error:", error);
+          setUserCity("Faridabad"); // Default to "Faridabad" if geolocation fails
         }
       );
+    } else {
+      setUserCity("Faridabad"); // Default to "Faridabad" if geolocation is not supported
     }
   }, []);
 

@@ -329,13 +329,6 @@ const Home = () => {
           </Link>
         </div>
 
-        {/* Display the notification token */}
-        {notificationToken && (
-          <div className="fixed bottom-4 right-4 bg-gray-800 text-white p-4 rounded-lg shadow-lg">
-            <p className="text-sm">Notification Token:</p>
-            <p className="text-xs break-all">{notificationToken}</p>
-          </div>
-        )}
       </div>
     </>
   );
